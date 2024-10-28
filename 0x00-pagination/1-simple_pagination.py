@@ -15,7 +15,6 @@ class Server:
 
     def dataset(self) -> List[List]:
         """Loads and caches the dataset if not already loaded.
-        
         Returns:
             List[List]: Cached dataset excluding the header.
         """
@@ -35,13 +34,13 @@ class Server:
             page_size (int): The number of items per page.
 
         Returns:
-            List[List]: The requested page of data, or an empty list if out of range.
+            List[List]:requested page of data,or an empty list if out of range
         """
-        assert isinstance(page, int) and page > 0, "page must be a positive integer"
-        assert isinstance(page_size, int) and page_size > 0, "page_size must be a positive integer"
+        assert isinstance(page, int) and page > 0, "must be a pos int"
+        assert isinstance(page_size, int) and page_size > 0, "must be pos int"
 
         start, end = index_range(page, page_size)  # Determine range for page
-        if start >= len(self.dataset()):  # Check if start index is beyond dataset
+        if start >= len(self.dataset()):  # if start ind is dataset
             return []
 
         return self.dataset()[start:end]  # Return the selected slice
