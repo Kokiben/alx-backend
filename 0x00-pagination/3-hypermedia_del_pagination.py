@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-hypermedia pagination
+Deletion-resilient hypermedia pagination
 """
 
 import csv
@@ -17,7 +17,7 @@ class Server:
 
     def dataset(self) -> List[List]:
         """Loads and caches the dataset if not already loaded.
-
+        
         Returns:
             List[List]: Cached dataset excluding the header.
         """
@@ -30,19 +30,20 @@ class Server:
         return self.__dataset
 
     def indexed_dataset(self) -> Dict[int, List]:
-        """Creates a dict of dataset indexed by position to handle deletions.
-
+        """Creates a dictionary of dataset indexed by position to handle deletions.
+        
         Returns:
-            Dict[int, List]:Dict with original ind as key and row as value.
+            Dict[int, List]: Dictionary with original index as key and row as value.
         """
         if self.__indexed_dataset is None:
             dataset = self.dataset()
-            self.__indexed_dataset = {i: dataset[i] for i in range(len(dataset))}
+            self.__indexed_dataset = {
+                i: dataset[i] for i in range(len(dataset))
+            }
         return self.__indexed_dataset
 
     def get_hyper_index(self, index: int = 0, page_size: int = 10) -> Dict[str, Any]:
-        """
-        Provides a deletion-resilient pagination.
+        """Provides a deletion-resilient pagination.
 
         Args:
             index (int): The starting index for the current page.
@@ -51,30 +52,28 @@ class Server:
         Returns:
             Dict[str, Any]: A dictionary containing pagination details.
         """
-        assert isinstance(index, int) and 0 <= index, "be a non-negative int."
-        assert isinstance(page_size, int) and page_size > 0, "must be a pos int"
+        assert isinstance(index, int) and index >= 0, (
+            "Index must be a non-negative integer."
+        )
+        assert isinstance(page_size, int) and page_size > 0, (
+            "Page size must be a positive integer."
+        )
 
         indexed_data = self.indexed_dataset()
-        csv_size = len(indexed_data)
-        assert index < csv_size, "Index out of range."
-
         data = []
         current_index = index
-        items_collected = 0
 
-        # Collect `page_size` items, skipping deletentries if necessary
-        while items_collected < page_size and current_index < csv_size:
+        # Gather items until we fill the page size or exhaust the dataset
+        while len(data) < page_size and current_index < len(indexed_data):
             if current_index in indexed_data:
                 data.append(indexed_data[current_index])
-                items_collected += 1
             current_index += 1
 
-        # `next_index` will be next valid index after last item in page
-        next_index = current_index if current_index < csv_size else None
-
+        # Prepare the result dictionary
+        next_index = current_index if current_index < len(indexed_data) else None
         return {
             "index": index,
-            "data": data,
+            "next_index": next_index,
             "page_size": len(data),
-            "next_index": next_index
+            "data": data,
         }
