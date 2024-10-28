@@ -18,7 +18,6 @@ class Server:
 
     def dataset(self) -> List[List]:
         """Loads and caches the dataset if not already loaded.
-        
         Returns:
             List[List]: Cached dataset excluding the header.
         """
@@ -31,10 +30,9 @@ class Server:
         return self.__dataset
 
     def indexed_dataset(self) -> Dict[int, List]:
-        """Creates a dictionary of dataset indexed by position to handle deletions.
-        
+        """Creates dic of dataset ind by position to handle deletions.
         Returns:
-            Dict[int, List]: Dictionary with original index as key and row as value.
+            Dict[int, List]: Dict with original ind as key and row as value.
         """
         if self.__indexed_dataset is None:
             dataset = self.dataset()
