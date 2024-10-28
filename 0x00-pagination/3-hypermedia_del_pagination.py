@@ -36,10 +36,12 @@ class Server:
         """
         if self.__indexed_dataset is None:
             dataset = self.dataset()
-            self.__indexed_dataset = {i: dataset[i] for i in range(len(dataset))}
+            self.__indexed_dataset =
+            {i: dataset[i] for i in range(len(dataset))}
         return self.__indexed_dataset
 
-    def get_hyper_index(self, index: int = 0, page_size: int = 10) -> Dict[str, Any]:
+    def get_hyper_index(self, index: int = 0, page_size: int = 10) ->
+    Dict[str, Any]:
         """Provides a deletion-resilient pagination.
 
         Args:
@@ -63,7 +65,8 @@ class Server:
             current_index += 1
 
         # Prepare the result dictionary
-        next_index = current_index if current_index < len(indexed_data) else None
+        next_index = current_index if
+        current_index < len(indexed_data) else None
         return {
             "index": index,
             "next_index": next_index,
