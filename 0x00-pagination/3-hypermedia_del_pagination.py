@@ -28,9 +28,9 @@ class Server:
         return self.__dataset
 
     def indexed_dataset(self) -> Dict[int, List]:
-        """Creates a dictionary of dataset indexed by position to handle deletions.
+        """Creates a dict of dataset ind by position to handle deletions.
         Returns:
-            Dict[int, List]: Dictionary with original index as key and row as value.
+            Dict[int, List]: Dict with original ind as key and row as val.
         """
         if self.__indexed_dataset is None:
             dataset = self.dataset()
@@ -61,7 +61,8 @@ class Server:
         iterator_index = start_index
 
         # Gather items until we fill the page size or exhaust the dataset
-        while len(page_data) < items_per_page and iterator_index < len(indexed_data):
+        while len(page_data) < items_per_page and
+        iterator_index < len(indexed_data):
             if iterator_index in indexed_data:
                 page_data.append(indexed_data[iterator_index])
             iterator_index += 1
