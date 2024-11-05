@@ -32,13 +32,10 @@ def get_locale():
 
 @app.route('/')
 def index():
-    """Render the index page with translatable messages."""
-    return render_template(
-        '4-index.html',
-        title=_("home_title"),
-        header=_("home_header")
-    )
+    """Render the index page with a welcome message."""
+    return render_template('4-index.html')
 
 
+# This condition checks if the script is run directly
 if __name__ == '__main__':
-    app.run()
+    app.run(port=5000, host='0.0.0.0', debug=True)
