@@ -1,47 +1,34 @@
 #!/usr/bin/env python3
 """
-Flask app
+Basic Flask app with a single route and a simple HTML template.
 """
-from flask import (
-    Flask,
-    render_template,
-    request
-)
+
+from flask import Flask, render_template, request
 from flask_babel import Babel
 
 
-class Config(object):
-    """
-    Configuration for Babel
-    """
-    LANGUAGES = ["en", "fr"]
-    BABEL_DEFAULT_LOCALE = "en"
-    BABEL_DEFAULT_TIMEZONE = "UTC"
-
-
 app = Flask(__name__)
-app.config.from_object(Config)
+app.config['BABEL_DEFAULT_LOCALE'] = 'en'
+app.config['BABEL_DEFAULT_TIMEZONE'] = 'UTC'
+
 babel = Babel(app)
 
 
 @babel.localeselector
 def get_locale():
-    """
-    Select and return best language match based on supported languages
-    """
-    loc = request.args.get('locale')
-    if loc in app.config['LANGUAGES']:
-        return loc
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
+    # Check if 'locale' is passed as a query parameter
+    locale = request.args.get('locale')
+    if locale and locale in ['en', 'fr']:
+        return locale
+    # Fall back to the default behavior (e.g., accept languages)
+    return request.accept_languages.best_match(['en', 'fr'])
 
 
-@app.route('/', strict_slashes=False)
-def index() -> str:
-    """
-    Handles / route
-    """
+@app.route('/')
+def index():
+    """Render the index page with a welcome message."""
     return render_template('4-index.html')
 
 
-if __name__ == "__main__":
-    app.run(port="5000", host="0.0.0.0", debug=True)
+if __name__ == '__main__':
+    app.run()
