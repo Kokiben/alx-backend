@@ -6,11 +6,13 @@ Basic Flask app with a mock user login system and locale handling.
 from flask import Flask, render_template, g, request
 from flask_babel import Babel, _
 
+
 app = Flask(__name__)
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 app.config['BABEL_DEFAULT_TIMEZONE'] = 'UTC'
 
 babel = Babel(app)
+
 
 # Mock user table
 users = {
