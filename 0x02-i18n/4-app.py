@@ -34,8 +34,8 @@ def get_locale():
 def index():
     """Render the index page with translatable messages."""
     return render_template(
-        '4-index.html', 
-        title=_("home_title"), 
+        '4-index.html',
+        title=_("home_title"),
         header=_("home_header")
     )
 
