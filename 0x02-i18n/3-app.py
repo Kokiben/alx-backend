@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Flask app with Babel integration, locale selection, and template translations.
+Flask app with Babel integration, locale selection, and template
+translations.
 """
 
 from flask import Flask, render_template, request
@@ -28,7 +29,9 @@ def get_locale():
 @app.route('/')
 def index():
     """Render the index page with translatable messages."""
-    return render_template('3-index.html', title=_("home_title"), header=_("home_header"))
+    return render_template(
+        '3-index.html', title=_("home_title"), header=_("home_header")
+    )
 
 
 if __name__ == '__main__':
