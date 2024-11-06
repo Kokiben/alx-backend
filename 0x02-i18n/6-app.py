@@ -6,13 +6,11 @@ Basic Flask app with a mock user login system and locale handling.
 from flask import Flask, render_template, g, request
 from flask_babel import Babel, _
 
-
 app = Flask(__name__)
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 app.config['BABEL_DEFAULT_TIMEZONE'] = 'UTC'
 
 babel = Babel(app)
-
 
 # Mock user table
 users = {
@@ -22,7 +20,6 @@ users = {
     4: {"name": "Teletubby", "locale": None, "timezone": "Europe/London"},
 }
 
-
 def get_user():
     """Return a user dictionary or None if no user is found."""
     user_id = request.args.get('login_as')
@@ -31,13 +28,11 @@ def get_user():
         return users.get(user_id)
     return None
 
-
 @app.before_request
 def before_request():
     """Set the user globally using get_user."""
     user = get_user()
     g.user = user
-
 
 @babel.localeselector
 def get_locale():
@@ -58,12 +53,10 @@ def get_locale():
     # Fallback to default locale
     return app.config['BABEL_DEFAULT_LOCALE']
 
-
 @app.route('/')
 def index():
     """Render the index page."""
     return render_template('6-index.html')
 
-
 if __name__ == '__main__':
-    app.run(port=5000)
+    app.run(port=5001)
