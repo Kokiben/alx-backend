@@ -58,5 +58,6 @@ def index():
     """Render the index page."""
     return render_template('6-index.html')
 
+
 if __name__ == '__main__':
     app.run(port=5001)
